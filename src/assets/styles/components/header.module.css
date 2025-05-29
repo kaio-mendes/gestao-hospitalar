@@ -1,0 +1,31 @@
+header {
+  height: 4rem;
+  background-color: #017aff;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+
+.bars p {
+  font-size: 24px;
+}
+
+.bars i {
+  font-size: 1.5rem;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .bars p {
+    font-size: 16px;
+  }
+}
