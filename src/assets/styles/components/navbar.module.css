@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   border-right: #eeeeee solid 2px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .items {
@@ -44,7 +46,56 @@
   border-radius: 100%;
 }
 
-@media screen and (max-width: 768px) {
+.userMenu {
+  display: none;
+}
+
+.userMenu a {
+  font-size: 20px;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.userMenu a:hover {
+  background-color: #c1ceb4;
+  color: white;
+  border-radius: 100%;
+}
+
+.profileMenu {
+  position: absolute;
+  bottom: 1rem;
+  left: 3rem;
+  z-index: 10;
+  border: #eeeeee solid 2px;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+  display: none;
+  height: 5rem;
+}
+
+.profileMenu button {
+  background-color: #017cff9f;
+  border: none;
+  padding: 3px;
+  border-radius: 5px;
+  color: white;
+}
+
+.profileMenu button:hover {
+  background-color: #004c9c9f;
+}
+
+@media screen and (max-width: 1400px) {
   .items a {
     font-size: 20px;
     height: 2rem;
@@ -61,6 +112,13 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+  }
+
+  .userMenu,
+  .profileMenu {
+    display: block;
+    display: flex;
     flex-direction: column;
   }
 }

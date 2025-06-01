@@ -13,19 +13,31 @@ header {
   justify-content: center;
   align-items: center;
   color: #ffffff;
+  padding: 2rem;
 }
 
 .bars p {
   font-size: 24px;
 }
 
-.bars i {
-  font-size: 1.5rem;
+.profile {
   padding: 2rem;
+  width: 12%;
+  height: 100%;
+  border-left: 1px solid #ffffff;
 }
 
-@media screen and (max-width: 768px) {
+.profile:hover {
+  background-color: #004a9933;
+  transition: background-color 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 1400px) {
   .bars p {
     font-size: 16px;
+  }
+
+  .profile {
+    display: none;
   }
 }
