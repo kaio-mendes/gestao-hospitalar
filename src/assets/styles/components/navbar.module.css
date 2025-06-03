@@ -83,15 +83,16 @@
   height: 5rem;
 }
 
-.profileMenu button {
+.profileMenu a {
   background-color: #017cff9f;
   border: none;
   padding: 3px;
   border-radius: 5px;
   color: white;
+  text-decoration: none;
 }
 
-.profileMenu button:hover {
+.profileMenu a:hover {
   background-color: #004c9c9f;
 }
 

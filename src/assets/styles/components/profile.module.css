@@ -5,7 +5,6 @@
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
-  cursor: pointer;
 }
 
 .img {
@@ -65,15 +64,16 @@
   }
 }
 
-.profileMenu button {
+.profileMenu a {
   border: none;
   background-color: #017cff9f;
   color: white;
   padding: 2px;
   cursor: pointer;
   border-radius: 5px;
+  text-decoration: none;
 }
 
-.profileMenu button:hover {
+.profileMenu a:hover {
   background-color: #004c9c9f;
 }

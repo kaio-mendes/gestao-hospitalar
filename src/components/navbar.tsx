@@ -38,7 +38,7 @@ export const Navbar = () => {
       </div>
       {menu && (
         <div className={styles.profileMenu}>
-          <button>Configurações</button>
+          <Link to="/configuracao">Configurações</Link>
           <button>Sair</button>
         </div>
       )}

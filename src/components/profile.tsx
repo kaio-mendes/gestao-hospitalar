@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from '../assets/styles/components/profile.module.css';
 import { IoIosArrowDown } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
-export const Profile: React.FC = () => {
-  const [menu, setMenu] = useState(false);
+type ProfileProps = {
+  toogleMenu: () => void;
+  menu: Boolean;
+  setMenu: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-  function toogleMenu() {
-    setMenu(prev => !prev);
-  }
-
+export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) => {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (!event.target.closest(`.${styles.container}`)) {
@@ -25,7 +26,7 @@ export const Profile: React.FC = () => {
 
   return (
     <>
-      <div className={styles.container} onClick={toogleMenu}>
+      <div className={styles.container}>
         <div className={styles.img}>
           <img src="https://wallpapers-clan.com/wp-content/uploads/2022/05/meme-pfp-42.jpg" />
         </div>
@@ -36,14 +37,14 @@ export const Profile: React.FC = () => {
           </div>
 
           <div className={`${styles.downArrow} ${menu ? styles.active : ''}`}>
-            <IoIosArrowDown />
+            <IoIosArrowDown onClick={toogleMenu} />
           </div>
         </div>
       </div>
       {menu && (
         <div className={styles.profileMenu}>
-          <button>Configurações</button>
-          <button>Sair</button>
+          <Link to="/configuracao">Configurações</Link>
+          <a>Sair</a>
         </div>
       )}
     </>

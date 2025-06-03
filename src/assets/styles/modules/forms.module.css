@@ -1,0 +1,32 @@
+.forms {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.agendamentos {
+  border-top: #111111 solid 2px;
+  width: 100%;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close {
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  background-color: #c1ceb4;
+  border-radius: 50%;
+  margin: 1rem;
+}
