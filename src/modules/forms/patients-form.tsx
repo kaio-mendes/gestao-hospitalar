@@ -1,74 +1,92 @@
-import { InputLabel, MenuItem, Select, TextField, FormControl, Button, Drawer } from '@mui/material';
+import { InputLabel, MenuItem, Select, TextField, FormControl, Button, Drawer, Box } from '@mui/material';
 import styles from '../../assets/styles/modules/forms.module.css';
-import React, { useState } from 'react';
-import { MdClose } from 'react-icons/md';
+import React, { useState, type SetStateAction } from 'react';
 
 type PatientsProps = {
   toogleForm: () => void;
-  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
-  showForm: Boolean;
+  setShowForm: React.Dispatch<SetStateAction<boolean>>;
+  showForm: boolean;
 };
 
-export const PatientsForm: React.FC<PatientsProps> = ({ toogleForm, setShowForm, showForm }) => {
-  const [gender, setGender] = useState('');
-
-  const handleGenderChange = (event: any) => {
-    setGender(event.target.value);
-  };
-
+export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm }) => {
   return (
     <Drawer anchor="right" open={showForm} onClose={() => setShowForm(false)}>
-      <div className={styles.flex} style={{ justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
-        <h1>Cadastro de paciente:</h1>
+      <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', width: 600 }}>
+        <h3>Cadastro de Paciente</h3>
 
-        <MdClose onClick={toogleForm} className={styles.close} />
-      </div>
-      <form className={styles.forms}>
-        <div className={styles.flex}>
-          <TextField fullWidth variant="filled" label="Nome" sx={{ m: 1, width: '50%' }} />
-          <TextField fullWidth variant="filled" label="CPF" sx={{ m: 1, width: '30%' }} />
-          <TextField variant="filled" label="Nascimento" type="date" InputLabelProps={{ shrink: true }} sx={{ m: 1 }} />
-        </div>
+        <form className={styles.forms}>
+          {/* Seção: Paciente */}
+          <label>Paciente:</label>
+          <div className={styles.flex}>
+            <TextField fullWidth variant="filled" label="Nome" name="nome" sx={{ m: 1, width: '50%' }} />
+            <TextField fullWidth variant="filled" label="CPF" name="cpf" sx={{ m: 1, width: '30%' }} />
+            <TextField
+              variant="filled"
+              label="Nascimento"
+              name="nascimento"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              sx={{ m: 1 }}
+            />
+          </div>
 
-        <div className={styles.flexCenter}>
-          <TextField variant="filled" label="Idade" sx={{ m: 1, width: '10%' }} />
-          <FormControl variant="filled" sx={{ m: 1, width: '15%' }}>
-            <InputLabel id="gender-label">Gênero</InputLabel>
-            <Select labelId="gender-label" id="gender" value={gender} onChange={handleGenderChange}>
-              <MenuItem value="Masculino">Masculino</MenuItem>
-              <MenuItem value="Feminino">Feminino</MenuItem>
-              <MenuItem value="PND">Prefiro não dizer</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField variant="filled" label="Contato de emergência" sx={{ m: 1, width: '20%' }} />
-          <TextField variant="filled" label="Telefone de emergência" sx={{ m: 1, width: '20%' }} />
-          <FormControl variant="filled" sx={{ m: 1, width: '15%' }}>
-            <InputLabel id="estado-label">Estado Civil</InputLabel>
-            <Select labelId="estado-label" id="estado">
-              <MenuItem value="casado">Casado(a)</MenuItem>
-              <MenuItem value="solteiro">Solteiro(a)</MenuItem>
-              <MenuItem value="amasiado">Amasiado(a)</MenuItem>
-              <MenuItem value="viuvo">Viúvo(a)</MenuItem>
-              <MenuItem value="outros">Outros</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+          <div className={styles.flexCenter}>
+            <TextField variant="filled" label="Idade" name="idade" sx={{ m: 1, width: '15%' }} />
+            <FormControl variant="filled" sx={{ m: 1, width: '20%' }}>
+              <InputLabel id="gender-label">Gênero</InputLabel>
+              <Select labelId="gender-label" name="genero">
+                <MenuItem value="Masculino">Masculino</MenuItem>
+                <MenuItem value="Feminino">Feminino</MenuItem>
+                <MenuItem value="PND">Prefiro não dizer</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl variant="filled" sx={{ m: 1, width: '25%' }}>
+              <InputLabel id="estado-civil-label">Estado Civil</InputLabel>
+              <Select labelId="estado-civil-label" name="estadoCivil">
+                <MenuItem value="casado">Casado(a)</MenuItem>
+                <MenuItem value="solteiro">Solteiro(a)</MenuItem>
+                <MenuItem value="amasiado">Amasiado(a)</MenuItem>
+                <MenuItem value="viuvo">Viúvo(a)</MenuItem>
+                <MenuItem value="outros">Outros</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
 
-        <div className={styles.flex}>
-          <TextField fullWidth variant="filled" label="Telefone" sx={{ m: 1, width: '30%' }} />
-          <TextField fullWidth variant="filled" label="Endereço" sx={{ m: 1 }} />
-        </div>
+          {/* Seção: Endereço */}
+          <label>Endereço:</label>
+          <div className={styles.flex}>
+            <TextField fullWidth variant="filled" label="Telefone" name="telefone" sx={{ m: 1, width: '30%' }} />
+            <TextField fullWidth variant="filled" label="Endereço" name="endereco" sx={{ m: 1 }} />
+          </div>
 
-        <div className={styles.flex}>
-          <TextField fullWidth variant="filled" label="Bairro" sx={{ m: 1 }} />
-          <TextField fullWidth variant="filled" label="Cidade" sx={{ m: 1 }} />
-          <TextField fullWidth variant="filled" label="Estado" sx={{ m: 1 }} />
-          <TextField fullWidth variant="filled" label="CEP" sx={{ m: 1 }} />
-        </div>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-          Salvar
-        </Button>
-      </form>
+          <div className={styles.flex}>
+            <TextField fullWidth variant="filled" label="Bairro" name="bairro" sx={{ m: 1 }} />
+            <TextField fullWidth variant="filled" label="Cidade" name="cidade" sx={{ m: 1 }} />
+            <TextField fullWidth variant="filled" label="Estado" name="estado" sx={{ m: 1 }} />
+            <TextField fullWidth variant="filled" label="CEP" name="cep" sx={{ m: 1 }} />
+          </div>
+
+          {/* Seção: Contato de Emergência */}
+          <label>Contato de Emergência:</label>
+          <div>
+            <TextField fullWidth variant="filled" label="Nome" name="contatoEmergencia" sx={{ m: 1, width: '100%' }} />
+            <TextField
+              fullWidth
+              variant="filled"
+              label="Telefone de Emergência"
+              name="telefoneEmergencia"
+              sx={{ m: 1, width: '100%' }}
+            />
+            <TextField fullWidth variant="filled" label="Endereço" name="enderecoEmergencia" sx={{ m: 1 }} />
+          </div>
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+              Salvar
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </Drawer>
   );
 };

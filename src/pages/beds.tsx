@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import { LuPlus } from 'react-icons/lu';
+import styles from '../assets/styles/pages/beds.module.css';
 import { Title } from '../components/title';
-import { Add } from '../modules/add';
-import { Box, Button, TextField } from '@mui/material';
-import { FaChevronDown } from 'react-icons/fa';
+import { useState } from 'react';
+import { BedForm } from '../modules/forms/bed-form';
 
 export const Beds = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [num, setNum] = useState('');
-  function saveBed(event) {
-    setNum(event.target.value);
+  const [showForm, setShowForm] = useState(false);
+  function toogleForm() {
+    setShowForm(prev => !prev);
   }
-
-  function Newbed() {}
-
   return (
-    <div>
+    <div className={styles.container}>
       <Title title="Leitos" />
+      <div className={styles.items}>
+        <div className={styles.newbed} onClick={toogleForm}>
+          <LuPlus />
+        </div>
+      </div>
+      {showForm ? <BedForm showForm={showForm} setShowForm={setShowForm} /> : ''}
     </div>
   );
 };
