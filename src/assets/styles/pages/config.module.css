@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.items {
+  width: 100%;
+  display: flex;
+  padding: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.new {
+  height: 8rem;
+  width: 8rem;
+  background-color: #000000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  margin: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+}
+
+.new:hover {
+  background-color: #b3b3b3;
+  transition: background-color 0.2s ease;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.new p {
+  font-size: 1rem;
+  text-align: center;
+}

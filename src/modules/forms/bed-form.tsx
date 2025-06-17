@@ -50,10 +50,12 @@ export const BedForm: React.FC<form> = ({ showForm, setShowForm }) => {
               ))}
             </Select>
           </FormControl>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+              Salvar
+            </Button>
+          </Box>
         </form>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-          Salvar
-        </Button>
       </Box>
     </Drawer>
   );
