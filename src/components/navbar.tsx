@@ -2,7 +2,9 @@ import { Link, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/components/navbar.module.css';
 import { LuBed, LuCalendarPlus2, LuClipboardPlus, LuHouse, LuStethoscope } from 'react-icons/lu';
 import { FaGear } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { Switch } from '@mui/material';
+import { ThemeContext } from '../providers/dark-mode';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -19,9 +21,10 @@ export const Navbar = () => {
     { to: '/profissionais', icon: <LuStethoscope /> },
     { to: '/agendamentos', icon: <LuCalendarPlus2 /> },
   ];
+  const { theme, toogleTheme } = useContext(ThemeContext);
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} style={{ backgroundColor: theme ? '#191919' : '#ffffff' }}>
       <div className={styles.items}>
         <ul>
           {links.map(link => (
@@ -40,6 +43,10 @@ export const Navbar = () => {
         <div className={styles.profileMenu}>
           <Link to="/configuracao">Configurações</Link>
           <button>Sair</button>
+          <div>
+            Dark Mode
+            <Switch onChange={toogleTheme} />
+          </div>
         </div>
       )}
     </nav>

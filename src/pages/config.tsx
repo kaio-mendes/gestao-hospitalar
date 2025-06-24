@@ -8,8 +8,7 @@ import { ConfigForms } from '../modules/forms/config-forms';
 export const Config = () => {
   const [form, setForm] = useState('');
   const handleForm = (formName: string) => {
-    setForm(formName); // aqui você atualiza o estado corretamente
-    console.log(formName, 'foi clicado');
+    setForm(formName);
   };
   return (
     <div className={styles.container}>

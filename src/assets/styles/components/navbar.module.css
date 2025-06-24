@@ -89,7 +89,7 @@
   border-radius: 6px;
   gap: 0.5rem;
   display: none;
-  height: 5rem;
+  height: auto;
 }
 
 .profileMenu a {
