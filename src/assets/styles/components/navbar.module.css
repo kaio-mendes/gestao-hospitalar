@@ -69,6 +69,15 @@
   border-radius: 100%;
 }
 
+.profileMenu button {
+  background-color: #017cff9f;
+  border: none;
+  padding: 3px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
+
 .profileMenu {
   position: absolute;
   bottom: 1rem;
@@ -80,7 +89,7 @@
   border-radius: 6px;
   gap: 0.5rem;
   display: none;
-  height: 5rem;
+  height: auto;
 }
 
 .profileMenu a {
@@ -92,7 +101,8 @@
   text-decoration: none;
 }
 
-.profileMenu a:hover {
+.profileMenu a,
+button:hover {
   background-color: #004c9c9f;
 }
 

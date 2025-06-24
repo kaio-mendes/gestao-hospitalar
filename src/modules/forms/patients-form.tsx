@@ -1,6 +1,6 @@
 import { InputLabel, MenuItem, Select, TextField, FormControl, Button, Drawer, Box } from '@mui/material';
 import styles from '../../assets/styles/modules/forms.module.css';
-import React, { useState, type SetStateAction } from 'react';
+import React, { type SetStateAction } from 'react';
 
 type PatientsProps = {
   toogleForm: () => void;
