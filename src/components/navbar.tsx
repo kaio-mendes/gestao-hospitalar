@@ -21,8 +21,12 @@ export const Navbar = () => {
     { to: '/profissionais', icon: <LuStethoscope /> },
     { to: '/agendamentos', icon: <LuCalendarPlus2 /> },
   ];
-  const { theme, toogleTheme } = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
+  if (!themeContext) {
+    throw new Error('ThemeContext must be used within a ChangeThemeProvider');
+  }
 
+  const { theme, toogleTheme } = themeContext;
   return (
     <nav className={styles.navbar} style={{ backgroundColor: theme ? '#191919' : '#ffffff' }}>
       <div className={styles.items}>

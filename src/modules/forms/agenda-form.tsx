@@ -1,6 +1,6 @@
 import { Box, Button, Drawer, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import type { SetStateAction } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import 'dayjs/locale/pt-br';
@@ -13,8 +13,7 @@ type forms = {
 export const AgendaForm: React.FC<forms> = ({ showForm, setShowForm }) => {
   dayjs.locale('pt-br');
 
-  const [value, setValue] = React.useState(dayjs());
-
+  const [value, setValue] = useState<dayjs.Dayjs | null>(null);
   const pacientes = [
     { nome: 'Joao', idade: 53 },
     { nome: 'Kaio', idade: 51 },

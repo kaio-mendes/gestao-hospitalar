@@ -8,7 +8,8 @@ import { useState } from 'react';
 
 export const Calendar = () => {
   dayjs.locale('pt-br');
-  const [selectedDate, setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null);
+
   return (
     <Box sx={{ backgroundColor: '#ffffff', borderRadius: '25px', border: '2px solid #eeeeee' }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

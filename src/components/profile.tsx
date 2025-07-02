@@ -14,7 +14,8 @@ type ProfileProps = {
 export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) => {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (!event.target.closest(`.${styles.container}`) && !event.target.closest(`.${styles.profileMenu}`)) {
+      const target = event.target as HTMLElement | null;
+      if (target && !target.closest(`.${styles.container}`) && !target.closest(`.${styles.profileMenu}`)) {
         setMenu(false);
       }
     }
@@ -26,8 +27,12 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
     return () => document.removeEventListener('click', handleClickOutside);
   }, [menu]);
 
-  const { theme, setTheme, toogleTheme } = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
+  if (!themeContext) {
+    throw new Error('ThemeContext must be used within a ChangeThemeProvider');
+  }
 
+  const { theme, toogleTheme } = themeContext;
   return (
     <>
       <div className={styles.container}>
