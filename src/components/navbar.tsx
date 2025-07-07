@@ -15,7 +15,7 @@ export const Navbar = () => {
     setMenu(prev => !prev);
   }
   const links = [
-    { to: '/', icon: <LuHouse /> },
+    { to: '/dashboard', icon: <LuHouse /> },
     { to: '/pacientes', icon: <LuClipboardPlus /> },
     { to: '/leitos', icon: <LuBed /> },
     { to: '/profissionais', icon: <LuStethoscope /> },
