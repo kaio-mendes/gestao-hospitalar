@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import styles from '../../assets/styles/pages/auth/login.module.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
@@ -15,8 +15,8 @@ export const Login = () => {
     }, 1500);
   };
 
-  const handleChange = e => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
     if (name === 'user') {
       setUser(value);
     }
@@ -26,7 +26,7 @@ export const Login = () => {
     }
   };
 
-  const authUser = e => {
+  const authUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user === 'kaio' && password === '1234') {
       navigate('/dashboard');
@@ -56,7 +56,7 @@ export const Login = () => {
       )}
       <div className={styles.inputs}>
         <h1>Login.</h1>
-        <form>
+        <form onSubmit={authUser}>
           <TextField
             label="Usuário"
             variant="standard"
@@ -117,7 +117,7 @@ export const Login = () => {
               },
             }}
           />
-          <Button variant="contained" color="warning" onClick={authUser}>
+          <Button variant="contained" color="warning" type="submit">
             Login
           </Button>
           <p onClick={toogleAlert}>Esqueceu a senha</p>

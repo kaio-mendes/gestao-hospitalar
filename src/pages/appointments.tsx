@@ -11,7 +11,15 @@ export const Appointments = () => {
     setShowForm(prev => !prev);
   }
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+      }}
+    >
       <Title title="Agendamentos" />
       <Box sx={{ margin: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <Calendar />

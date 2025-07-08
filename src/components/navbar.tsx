@@ -21,8 +21,12 @@ export const Navbar = () => {
     { to: '/profissionais', icon: <LuStethoscope /> },
     { to: '/agendamentos', icon: <LuCalendarPlus2 /> },
   ];
-  const { theme, toogleTheme } = useContext(ThemeContext);
+  const context = useContext(ThemeContext);
 
+  if (!context) {
+    throw new Error('Tipo undefine');
+  }
+  const { theme, toogleTheme } = context;
   return (
     <nav className={styles.navbar} style={{ backgroundColor: theme ? '#191919' : '#ffffff' }}>
       <div className={styles.items}>

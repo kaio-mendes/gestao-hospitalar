@@ -1,4 +1,14 @@
-import { InputLabel, MenuItem, Select, TextField, FormControl, Button, Drawer, Box } from '@mui/material';
+import {
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  FormControl,
+  Button,
+  Drawer,
+  Box,
+  type SelectChangeEvent,
+} from '@mui/material';
 import styles from '../../assets/styles/modules/forms.module.css';
 import React, { useState, type SetStateAction } from 'react';
 
@@ -45,15 +55,24 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
     endereco_emergencia: '',
   });
 
-  const handleChange = e => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = e => {
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log(formData);
@@ -109,7 +128,7 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
             />
             <FormControl variant="filled" sx={{ m: 1, width: '20%' }}>
               <InputLabel id="gender-label">Gênero</InputLabel>
-              <Select labelId="gender-label" name="genero" value={formData.genero} onChange={handleChange}>
+              <Select labelId="gender-label" name="genero" value={formData.genero} onChange={handleSelectChange}>
                 <MenuItem value="Masculino">Masculino</MenuItem>
                 <MenuItem value="Feminino">Feminino</MenuItem>
                 <MenuItem value="PND">Prefiro não dizer</MenuItem>
@@ -121,7 +140,7 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
                 labelId="estado-civil-label"
                 name="estado_civil"
                 value={formData.estado_civil}
-                onChange={handleChange}
+                onChange={handleSelectChange}
               >
                 <MenuItem value="casado">Casado(a)</MenuItem>
                 <MenuItem value="solteiro">Solteiro(a)</MenuItem>
