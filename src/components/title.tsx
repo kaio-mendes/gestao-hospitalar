@@ -3,5 +3,5 @@ interface TitleProps {
 }
 
 export const Title = ({ title }: TitleProps) => {
-  return <h1 style={{ marginLeft: '2rem' }}>{title}</h1>;
+  return <h1 style={{ marginLeft: '2rem', textAlign: 'start' }}>{title}</h1>;
 };
