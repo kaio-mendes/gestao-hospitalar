@@ -2,7 +2,13 @@ import { useContext, useEffect } from 'react';
 import { ThemeContext } from './providers/dark-mode';
 
 export const ThemeApplier = () => {
-  const { theme } = useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+
+  if (!context) {
+    throw new Error('Tipo undefine');
+  }
+
+  const { theme } = context;
 
   useEffect(() => {
     document.body.style.backgroundColor = theme ? '#191919' : '#ffffff';

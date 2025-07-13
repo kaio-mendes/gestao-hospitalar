@@ -14,8 +14,12 @@ type ProfileProps = {
 export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) => {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (!event.target.closest(`.${styles.container}`) && !event.target.closest(`.${styles.profileMenu}`)) {
-        setMenu(false);
+      const target = event.target;
+
+      if (target instanceof HTMLElement) {
+        if (!target.closest(`.${styles.container}`) && !target.closest(`.${styles.profileMenu}`)) {
+          setMenu(false);
+        }
       }
     }
 
@@ -23,10 +27,18 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
       document.addEventListener('click', handleClickOutside);
     }
 
-    return () => document.removeEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, [menu]);
 
-  const { theme, setTheme, toogleTheme } = useContext(ThemeContext);
+  const context = useContext(ThemeContext); //evitar erro de tipo
+
+  if (!context) {
+    throw new Error('Tipo undefine');
+  }
+
+  const { theme, toogleTheme } = context;
 
   return (
     <>

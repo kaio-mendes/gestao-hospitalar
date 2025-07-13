@@ -10,7 +10,7 @@ type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | void>(undefined);
 
 export const ChangeThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<boolean>(() => {
