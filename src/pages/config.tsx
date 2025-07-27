@@ -14,11 +14,11 @@ export const Config = () => {
     <div className={styles.container}>
       <Title title="Configurações" />
       <div className={styles.items}>
-        <div className={styles.new} onClick={() => handleForm('Leitos')}>
+        <div className={styles.new} onClick={() => handleForm('Quartos')}>
           <div className={styles.icon}>
             <LuBed fontSize={32} />
           </div>
-          <p>Leitos</p>
+          <p>Quartos</p>
         </div>
 
         <div className={styles.new} onClick={() => handleForm('Profissionais')}>

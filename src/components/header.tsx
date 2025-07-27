@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../assets/styles/components/header.module.css';
 import { Profile } from './profile';
 
 export const Header = () => {
   const [menu, setMenu] = useState(false);
+
   function toogleMenu() {
     setMenu(prev => !prev);
   }

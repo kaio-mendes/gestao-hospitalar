@@ -6,6 +6,7 @@ import { Header } from './components/header.tsx';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { ChangeThemeProvider } from './providers/dark-mode.tsx';
 import { ThemeApplier } from './theme-applier.tsx';
+import { IsAdminProvider } from './context/is-admin-context.tsx';
 
 const RootLayout = () => {
   const location = useLocation();
@@ -25,7 +26,9 @@ createRoot(document.getElementById('root')!).render(
     <ChangeThemeProvider>
       <ThemeApplier />
       <BrowserRouter>
-        <RootLayout />
+        <IsAdminProvider>
+          <RootLayout />
+        </IsAdminProvider>
       </BrowserRouter>
     </ChangeThemeProvider>
   </StrictMode>
