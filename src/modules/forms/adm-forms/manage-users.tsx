@@ -24,12 +24,12 @@ export const ManageUsers: React.FC<Form> = ({ form, setForm }) => {
     const token = localStorage.getItem('token');
     async function listUser() {
       try {
-        const response = await axios.get(`${apiUrl}/listar-usuarios`, {
-          headers: {
-            Authorization: token, //backend em roda privada precisa do token
-          },
+        const response = await fetch(`${apiUrl}/listar-usuarios`, {
+          credentials: 'include',
         });
-        setData(response.data.users);
+        const responseData = await response.json();
+
+        setData(responseData.users);
       } catch (error) {
         console.log(error);
       }

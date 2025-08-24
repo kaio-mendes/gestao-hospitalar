@@ -24,6 +24,14 @@ export const BedForm: React.FC<form> = ({ showForm, setShowForm }) => {
     { quarto: 4, estado: 'ocupado' },
     { quarto: 5, estado: 'livre' },
   ];
+
+  const setor = [
+    { id: 1, setor: 'cardio' },
+    { id: 2, setor: 'onco' },
+    { id: 3, setor: 'pediat' },
+    { id: 4, setor: 'dentista' },
+    { id: 5, setor: 'harry potter' },
+  ];
   return (
     <Drawer anchor="right" open={showForm} onClose={() => setShowForm(false)}>
       <Box sx={{ padding: 2, alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -35,6 +43,17 @@ export const BedForm: React.FC<form> = ({ showForm, setShowForm }) => {
               {pacientes.map(paciente => (
                 <MenuItem key={paciente.nome} value={paciente.nome}>
                   {paciente.nome}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl variant="filled" sx={{ m: 1, width: 300 }}>
+            <InputLabel id="setor">Setor</InputLabel>
+            <Select labelId="setor" id="setor">
+              {setor.map(setor => (
+                <MenuItem key={setor.id} value={setor.setor}>
+                  {setor.setor}
                 </MenuItem>
               ))}
             </Select>

@@ -7,6 +7,8 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 import { ChangeThemeProvider } from './providers/dark-mode.tsx';
 import { ThemeApplier } from './theme-applier.tsx';
 import { IsAdminProvider } from './context/is-admin-context.tsx';
+import { Navbar } from './components/navbar.tsx';
+import { AppRoutes } from './Routes.tsx';
 
 const RootLayout = () => {
   const location = useLocation();
@@ -16,7 +18,10 @@ const RootLayout = () => {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {!isLoginPage && <Header />}
       <div style={{ display: 'flex', flex: 1 }}>
-        <App />
+        {!isLoginPage && <Navbar />} {/* Navbar fixa */}
+        <main style={{ flex: 1 }}>
+          <AppRoutes /> {/* Rotas só mudam o conteúdo principal */}
+        </main>
       </div>
     </div>
   );

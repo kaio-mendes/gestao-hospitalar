@@ -1,4 +1,3 @@
-import { jwtDecode } from 'jwt-decode';
 import { useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAdminContext } from '../../context/is-admin-context';
@@ -15,19 +14,21 @@ export function UserFetchLogin() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+        credentials: 'include',
       });
-      const data = await res.json(); //aqui recebe o token
 
       if (res.ok) {
-        localStorage.setItem('token', data.token);
-        const decoded: any = jwtDecode(data.token);
-        const isAdmin = decoded.admin;
-        const userName = decoded.name;
-        setIsAdmin(isAdmin);
-        setName(userName);
+        const userInformation = await fetch('http://localhost:3000/user-info', {
+          credentials: 'include',
+        });
+        const userInformationData = await userInformation.json();
+
+        setIsAdmin(userInformationData.userInfo.admin);
+        setName(userInformationData.userInfo.name);
+
         navigate('/dashboard');
       } else {
-        alert(data.message || 'Erro no login');
+        alert('Erro no login');
       }
     } catch (error) {
       console.log(error);

@@ -29,8 +29,8 @@ export const Login = () => {
           <h3>Entre</h3>
 
           <div className={styles.inputs}>
-            <label>Nome</label>
-            <TextField fullWidth variant="filled" label="Nome" name="Nome" onChange={e => setEmail(e.target.value)} />
+            <label>Email</label>
+            <TextField fullWidth variant="filled" label="Email" name="Email" onChange={e => setEmail(e.target.value)} />
 
             <label>Senha</label>
             <TextField

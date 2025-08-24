@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from '../assets/styles/components/profile.module.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
 
   const { theme, toogleTheme } = context;
   const removeToken = () => {
-    localStorage.removeItem('token');
+    fetch('http://localhost:3000/logout', { method: 'POST', credentials: 'include' });
     navigate('/');
   };
   return (

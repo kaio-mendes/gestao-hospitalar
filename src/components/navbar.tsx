@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../assets/styles/components/navbar.module.css';
 import { LuBed, LuCalendarPlus2, LuClipboardPlus, LuHouse, LuStethoscope } from 'react-icons/lu';
 import { FaGear } from 'react-icons/fa6';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Switch } from '@mui/material';
 import { ThemeContext } from '../providers/dark-mode';
 
@@ -30,7 +30,7 @@ export const Navbar = () => {
   const { theme, toogleTheme } = context;
 
   const removeToken = () => {
-    localStorage.removeItem('token');
+    fetch('http://localhost:3000/logout');
     navigate('/');
   };
 

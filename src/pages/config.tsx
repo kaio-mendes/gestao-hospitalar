@@ -25,7 +25,7 @@ export const Config = () => {
           <div className={styles.icon}>
             <TbNurse fontSize={32} />
           </div>
-          <p>Profissionais</p>
+          <p>Novo Profissional</p>
         </div>
 
         <div className={styles.new} onClick={() => handleForm('Setores')}>
