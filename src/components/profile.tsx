@@ -15,6 +15,7 @@ type ProfileProps = {
 export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) => {
   const navigate = useNavigate();
   const { isAdmin, name } = useContext(isAdminContext);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -44,7 +45,7 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
 
   const { theme, toogleTheme } = context;
   const removeToken = () => {
-    fetch('http://localhost:3000/logout', { method: 'POST', credentials: 'include' });
+    fetch(`${apiUrl}/logout`, { method: 'POST', credentials: 'include' });
     navigate('/');
   };
   return (
@@ -53,7 +54,7 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
         <div className={styles.informations}>
           <div className={styles.informationsItems}>
             <h4>{name}</h4>
-            <p>{isAdmin ? 'admin' : 'usuário'}</p>
+            <p>{isAdmin}</p>
           </div>
 
           <div className={`${styles.downArrow} ${menu ? styles.active : ''}`}>
@@ -64,7 +65,7 @@ export const Profile: React.FC<ProfileProps> = ({ toogleMenu, menu, setMenu }) =
 
       {menu && (
         <div className={styles.profileMenu}>
-          {isAdmin ? <Link to="/configuracao">Configurações</Link> : ''}
+          {isAdmin === 'admin' ? <Link to="/configuracao">Configurações</Link> : ''}
           <a onClick={removeToken}>Sair</a>
           <div>
             {theme ? 'Light mode' : 'Dark mode'}

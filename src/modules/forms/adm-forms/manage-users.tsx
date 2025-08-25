@@ -2,7 +2,6 @@ import { Box, Drawer } from '@mui/material';
 import { useEffect, useState, type SetStateAction } from 'react';
 import type React from 'react';
 import { LuPen } from 'react-icons/lu';
-import axios from 'axios';
 import styles from '../../../assets/styles/modules/ConfigForms/manage-users.module.css';
 
 type Form = {
@@ -14,7 +13,7 @@ type users = {
   id: number;
   name: string;
   email: string;
-  admin: boolean;
+  tipo: string;
 };
 
 export const ManageUsers: React.FC<Form> = ({ form, setForm }) => {
@@ -46,7 +45,7 @@ export const ManageUsers: React.FC<Form> = ({ form, setForm }) => {
         {data.map(usuario => (
           <div className={styles.item} key={usuario.id}>
             <h3>{usuario.name}</h3>
-
+            <h4>{usuario.tipo}</h4>
             <LuPen />
           </div>
         ))}

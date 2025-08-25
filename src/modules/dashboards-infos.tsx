@@ -1,13 +1,19 @@
 import { LuUserRound, LuBed, LuCalendar } from 'react-icons/lu';
 import styles from '../assets/styles/modules/dashboards-infos.module.css';
 import { TbNurse } from 'react-icons/tb';
+import { isAdminContext } from '../context/is-admin-context';
+import { useContext } from 'react';
 
 export const DashboardsInfos = () => {
+  const { isAdmin, name } = useContext(isAdminContext);
+
   const options = [
     { id: 1, nome: 'Pacientes', quantidade: '5', color: '#C45AFA', icon: LuUserRound },
     { id: 2, nome: 'Quartos', quantidade: '23', color: '#33D14C', icon: LuBed },
     { id: 3, nome: 'Agendamentos', quantidade: '12', color: '#fde910', icon: LuCalendar },
-    { id: 4, nome: 'Profissionais', quantidade: '10', color: '#5F58E3', icon: TbNurse },
+    ...(isAdmin != 'medico'
+      ? [{ id: 4, nome: 'Profissionais', quantidade: '10', color: '#5F58E3', icon: TbNurse }]
+      : []),
   ];
 
   return (

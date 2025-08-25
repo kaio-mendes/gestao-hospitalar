@@ -40,7 +40,7 @@ export function AppRoutes() {
       <Route
         path="/profissionais"
         element={
-          <PrivateRoute>
+          <PrivateRoute requiredRole={['admin', 'secretario']}>
             <Professionals />
           </PrivateRoute>
         }

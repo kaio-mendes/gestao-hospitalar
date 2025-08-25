@@ -10,7 +10,8 @@ import {
   type SelectChangeEvent,
 } from '@mui/material';
 import styles from '../../assets/styles/modules/forms.module.css';
-import React, { useState, type SetStateAction } from 'react';
+import React, { useEffect, useState, type SetStateAction } from 'react';
+import axios from 'axios';
 
 type PatientsProps = {
   toogleForm: () => void;
@@ -34,6 +35,12 @@ type FormData = {
   nome_emergencia: string;
   telefone_emergencia: string;
   endereco_emergencia: string;
+  medico_id: number | string; // Corrigido para string | number
+};
+
+type Professional = {
+  id: number;
+  name: string;
 };
 
 export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm }) => {
@@ -53,14 +60,57 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
     nome_emergencia: '',
     telefone_emergencia: '',
     endereco_emergencia: '',
+    medico_id: '', // Corrigido para string
   });
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
+
+  useEffect(() => {
+    async function showProfessionals() {
+      try {
+        const response = await axios.get(`${apiUrl}/profissionais`, { withCredentials: true });
+        setProfessionals(response.data.professionals);
+      } catch (error) {
+        console.error('Erro ao carregar profissionais:', error);
+        alert('Erro ao carregar profissionais. Tente novamente.');
+      }
+    }
+    showProfessionals();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as HTMLInputElement;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value } = e.target;
+    if (name === 'data_nascimento') {
+      const age = calculateAge(value);
+
+      setFormData(prev => ({
+        ...prev,
+        data_nascimento: value,
+        idade: age,
+      }));
+    } else if (name === 'idade') {
+      setFormData(prev => ({
+        ...prev,
+        idade: Number(value),
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const calculateAge = (birthDateString: string): number => {
+    const today = new Date();
+    const birthDate = new Date(birthDateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age >= 0 ? age : 0;
   };
 
   const handleSelectChange = (e: SelectChangeEvent<string>) => {
@@ -68,14 +118,53 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
 
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'idade' ? Number(value) : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleMedicoSelectChange = (e: SelectChangeEvent<string>) => {
+    const { value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      medico_id: value, // Atualizando o medico_id com o id do médico selecionado
+    }));
+  };
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(formData);
+    try {
+      const dataToSend = { ...formData, idade: Number(formData.idade) };
+
+      const response = await axios.post(`${apiUrl}/pacientes`, dataToSend, { withCredentials: true });
+
+      console.log('Paciente criado:', response.data);
+      setShowForm(false);
+      setFormData({
+        nome: '',
+        cpf: '',
+        data_nascimento: '',
+        idade: 0,
+        genero: '',
+        estado_civil: '',
+        telefone: '',
+        endereco: '',
+        bairro: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        nome_emergencia: '',
+        telefone_emergencia: '',
+        endereco_emergencia: '',
+        medico_id: '', // Resetando para vazio
+      });
+      console.log('tudo certo');
+    } catch (error) {
+      console.error('Erro ao criar paciente:', error);
+      alert('Erro ao salvar paciente. Tente novamente.');
+    }
   };
 
   return (
@@ -122,9 +211,12 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
               variant="filled"
               label="Idade"
               name="idade"
+              type="number"
+              InputProps={{
+                readOnly: true,
+              }}
               sx={{ m: 1, width: '15%' }}
               value={formData.idade}
-              onChange={handleChange}
             />
             <FormControl variant="filled" sx={{ m: 1, width: '20%' }}>
               <InputLabel id="gender-label">Gênero</InputLabel>
@@ -244,7 +336,21 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
               onChange={handleChange}
             />
           </div>
-
+          <FormControl variant="filled" sx={{ m: 1, width: '100%' }}>
+            <InputLabel id="medico-label">Médico</InputLabel>
+            <Select
+              labelId="medico-label"
+              name="medico_id"
+              value={formData.medico_id}
+              onChange={handleMedicoSelectChange}
+            >
+              {professionals.map(professional => (
+                <MenuItem key={professional.id} value={professional.id}>
+                  {professional.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
               Salvar

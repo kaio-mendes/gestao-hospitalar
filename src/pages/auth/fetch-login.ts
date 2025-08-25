@@ -7,10 +7,11 @@ export function UserFetchLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { setIsAdmin, setName } = useContext(isAdminContext);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleLogin = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:3000/login', {
+      const res = await fetch(`${apiUrl}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -18,7 +19,7 @@ export function UserFetchLogin() {
       });
 
       if (res.ok) {
-        const userInformation = await fetch('http://localhost:3000/user-info', {
+        const userInformation = await fetch(`${apiUrl}/user-info`, {
           credentials: 'include',
         });
         const userInformationData = await userInformation.json();

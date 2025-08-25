@@ -5,21 +5,25 @@ import { FaGear } from 'react-icons/fa6';
 import { useContext, useState } from 'react';
 import { Switch } from '@mui/material';
 import { ThemeContext } from '../providers/dark-mode';
+import { isAdminContext } from '../context/is-admin-context';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
   const [menu, setMenu] = useState(false);
+  const { isAdmin, name } = useContext(isAdminContext);
+
   function toogleMenu() {
     setMenu(prev => !prev);
   }
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const links = [
     { to: '/dashboard', icon: <LuHouse /> },
     { to: '/pacientes', icon: <LuClipboardPlus /> },
     { to: '/leitos', icon: <LuBed /> },
-    { to: '/profissionais', icon: <LuStethoscope /> },
+    ...(isAdmin !== 'medico' ? [{ to: '/profissionais', icon: <LuStethoscope /> }] : []),
     { to: '/agendamentos', icon: <LuCalendarPlus2 /> },
   ];
   const context = useContext(ThemeContext);
@@ -30,7 +34,7 @@ export const Navbar = () => {
   const { theme, toogleTheme } = context;
 
   const removeToken = () => {
-    fetch('http://localhost:3000/logout');
+    fetch(`${apiUrl}/logout`);
     navigate('/');
   };
 
@@ -52,7 +56,7 @@ export const Navbar = () => {
       </div>
       {menu && (
         <div className={styles.profileMenu}>
-          <Link to="/configuracao">Configurações</Link>
+          {isAdmin === 'admin' ? <Link to="/configuracao">Configurações</Link> : ''}
           <button onClick={removeToken}>Sair</button>
           <div>
             Dark Mode
