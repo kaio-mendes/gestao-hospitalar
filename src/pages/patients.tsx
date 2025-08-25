@@ -2,15 +2,24 @@ import { useEffect, useState } from 'react';
 import { Title } from '../components/title';
 import { Add } from '../modules/add';
 import { PatientsForm } from '../modules/forms/patients-form';
+import { AgendarConsulta } from '../modules/forms/agendar-consulta';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import axios from 'axios';
+
 type Pacientes = {
   id: number;
   medicoresponsavelId: number;
   nome: string;
+  medicoResponsavel?: {
+    id: number;
+    name: string;
+  };
 };
+
 export const Patients = () => {
   const [showForm, setShowForm] = useState(false);
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Pacientes | null>(null);
+
   function toogleForm() {
     setShowForm(prev => !prev);
   }
@@ -26,25 +35,20 @@ export const Patients = () => {
     showPacientes();
   }, []);
 
+  const abrirAgendamento = (paciente: Pacientes) => {
+    console.log(paciente.medicoResponsavel?.name);
+    setPacienteSelecionado(paciente);
+  };
+
+  const fecharAgendamento = () => {
+    setPacienteSelecionado(null);
+  };
+
   return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
-        padding: '2rem',
-      }}
-    >
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, padding: '2rem' }}>
       <Title title="Pacientes" />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-        }}
-      >
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
         {pacientes.map(paciente => (
           <Paper
             key={paciente.id}
@@ -66,17 +70,19 @@ export const Patients = () => {
               {paciente.nome}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {!paciente.medicoresponsavelId ? 'Sem medico atribuído' : paciente.medicoresponsavelId}
+              {paciente.medicoResponsavel?.name || 'Sem médico'}
             </Typography>
-            <Button color="primary" variant="contained">
-              Editar
+            <Button color="primary" variant="contained" onClick={() => abrirAgendamento(paciente)}>
+              Consulta
             </Button>
           </Paper>
         ))}
       </Box>
 
+      {pacienteSelecionado && <AgendarConsulta paciente={pacienteSelecionado} setAgendar={fecharAgendamento} />}
+
       <Add onClick={toogleForm} />
-      {showForm ? <PatientsForm setShowForm={setShowForm} toogleForm={toogleForm} showForm={showForm} /> : ''}
+      {showForm && <PatientsForm setShowForm={setShowForm} toogleForm={toogleForm} showForm={showForm} />}
     </Box>
   );
 };

@@ -35,7 +35,7 @@ type FormData = {
   nome_emergencia: string;
   telefone_emergencia: string;
   endereco_emergencia: string;
-  medico_id: number | string; // Corrigido para string | number
+  medicoResponsavelId: number | null;
 };
 
 type Professional = {
@@ -44,6 +44,8 @@ type Professional = {
 };
 
 export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     cpf: '',
@@ -60,7 +62,7 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
     nome_emergencia: '',
     telefone_emergencia: '',
     endereco_emergencia: '',
-    medico_id: '', // Corrigido para string
+    medicoResponsavelId: null,
   });
   const [professionals, setProfessionals] = useState<Professional[]>([]);
 
@@ -126,11 +128,9 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
     const { value } = e.target;
     setFormData(prev => ({
       ...prev,
-      medico_id: value, // Atualizando o medico_id com o id do médico selecionado
+      medicoResponsavelId: value ? Number(value) : null,
     }));
   };
-
-  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -158,7 +158,7 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
         nome_emergencia: '',
         telefone_emergencia: '',
         endereco_emergencia: '',
-        medico_id: '', // Resetando para vazio
+        medicoResponsavelId: null,
       });
       console.log('tudo certo');
     } catch (error) {
@@ -340,12 +340,12 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
             <InputLabel id="medico-label">Médico</InputLabel>
             <Select
               labelId="medico-label"
-              name="medico_id"
-              value={formData.medico_id}
+              name="medicoResponsavelId"
+              value={formData.medicoResponsavelId?.toString() ?? ''}
               onChange={handleMedicoSelectChange}
             >
               {professionals.map(professional => (
-                <MenuItem key={professional.id} value={professional.id}>
+                <MenuItem key={professional.id} value={professional.id.toString()}>
                   {professional.name}
                 </MenuItem>
               ))}
