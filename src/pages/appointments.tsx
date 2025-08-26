@@ -6,9 +6,20 @@ import { useEffect, useState } from 'react';
 import { AgendaForm } from '../modules/forms/agenda-form';
 import axios from 'axios';
 
+type Consulta = {
+  id: number;
+  dataConsulta: string;
+  paciente: {
+    nome: string;
+  };
+  medicoResponsavel?: {
+    name: string;
+  };
+};
+
 export const Appointments = () => {
   const [showForm, setShowForm] = useState(false);
-  const [agendamentos, setAgendamentos] = useState([]);
+  const [agendamentos, setAgendamentos] = useState<Consulta[]>([]);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -57,8 +68,8 @@ export const Appointments = () => {
                 key={agendado.id}
                 elevation={3}
                 sx={{
-                  width: 200,
-                  height: 120,
+                  width: 300,
+                  height: 220,
                   padding: 2,
                   display: 'flex',
                   flexDirection: 'column',
@@ -82,6 +93,9 @@ export const Appointments = () => {
                 <Typography variant="body2" color="text.secondary">
                   medico: {agendado.medicoResponsavel?.name || 'Sem médico'}
                 </Typography>
+                <Button color="primary" variant="contained">
+                  Laudo
+                </Button>
               </Paper>
             ))
           : 'sem agendamentos'}

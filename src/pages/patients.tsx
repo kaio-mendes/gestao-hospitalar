@@ -6,6 +6,7 @@ import { AgendarConsulta } from '../modules/forms/agendar-consulta';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import axios from 'axios';
 import { isAdminContext } from '../context/is-admin-context';
+import { Laudo } from '../modules/forms/laudo';
 
 type Pacientes = {
   id: number;
@@ -46,7 +47,9 @@ export const Patients = () => {
     setPacienteSelecionado(null);
   };
 
-  return (
+  return isAdmin === 'medico' ? (
+    <Laudo pacientes={pacientes} />
+  ) : (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, padding: '2rem' }}>
       <Title title="Pacientes" />
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
@@ -56,8 +59,8 @@ export const Patients = () => {
               key={paciente.id}
               elevation={3}
               sx={{
-                width: 200,
-                height: 120,
+                width: 300,
+                height: 220,
                 padding: 2,
                 display: 'flex',
                 flexDirection: 'column',
@@ -89,7 +92,7 @@ export const Patients = () => {
           <Add onClick={toogleForm} />
           {showForm && <PatientsForm setShowForm={setShowForm} toogleForm={toogleForm} showForm={showForm} />}
         </>
-      )}{' '}
+      )}
     </Box>
   );
 };

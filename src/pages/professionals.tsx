@@ -27,6 +27,7 @@ export const Professionals = () => {
     async function showProfessionals() {
       const response = await axios.get(`${apiUrl}/profissionais`, { withCredentials: true });
       setProfissionais(response.data.professionals);
+      console.log(response.data.professionals);
     }
     showProfessionals();
   }, []);

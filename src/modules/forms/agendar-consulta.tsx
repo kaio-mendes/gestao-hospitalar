@@ -1,7 +1,8 @@
-import { Box, Drawer, Typography, Button, Input, TextField } from '@mui/material';
+import { Box, Drawer, Typography, Button, TextField } from '@mui/material';
+
 import axios from 'axios';
 import { useState } from 'react';
-
+import { Laudo } from './laudo';
 type AgendarConsultaProps = {
   paciente: {
     id: number;
@@ -18,17 +19,24 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
 
   const [dataConsulta, setDataConsulta] = useState('');
   const [observacao, setObservacao] = useState(paciente.observacao || '');
+  const [horaConsulta, setHoraConsulta] = useState<Date | null>(null);
 
   const marcarConsulta = async () => {
     if (!dataConsulta) {
       alert('Escolha uma data para a consulta.');
+
       return;
     }
 
     try {
       console.log('Agendando consulta para:', paciente.nome);
       const isoDate = new Date(dataConsulta).toISOString();
-
+      let horaString = null;
+      if (horaConsulta) {
+        const h = horaConsulta.getHours().toString().padStart(2, '0');
+        const m = horaConsulta.getMinutes().toString().padStart(2, '0');
+        horaString = `${h}:${m}:00`;
+      }
       const response = await axios.post(
         `${apiUrl}/agendar`,
         {
@@ -36,18 +44,18 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
           medicoResponsavelId: paciente.medicoResponsavel?.id || null,
           dataConsulta: isoDate,
           observacao: observacao,
+          horaConsulta: horaString,
         },
-        { withCredentials: true } // <-- correto aqui
+        { withCredentials: true }
       );
 
       console.log('Consulta agendada:', response.data);
-      setAgendar(); // fecha o drawer
+      setAgendar();
     } catch (error) {
       console.error('Erro ao agendar consulta:', error);
       alert('Não foi possível agendar a consulta. Tente novamente.');
     }
   };
-
   return (
     <Drawer anchor="right" open={true} onClose={setAgendar}>
       <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', width: 600 }}>
@@ -68,6 +76,7 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
           value={dataConsulta}
           onChange={e => setDataConsulta(e.target.value)}
         />
+
         <TextField
           label="Observações"
           multiline

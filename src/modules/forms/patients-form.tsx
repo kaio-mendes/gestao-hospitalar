@@ -125,6 +125,7 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
   };
 
   const handleMedicoSelectChange = (e: SelectChangeEvent<string>) => {
+    console.log(professionals.id);
     const { value } = e.target;
     setFormData(prev => ({
       ...prev,
