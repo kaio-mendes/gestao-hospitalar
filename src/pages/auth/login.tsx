@@ -43,10 +43,6 @@ export const Login = () => {
             />
           </div>
 
-          <div className={styles['extra-options']}>
-            <a href="#">Recuperar senha</a>
-          </div>
-
           <div className={styles.buttons}>
             <button className={styles.login} type="submit">
               Entrar

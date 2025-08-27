@@ -1,8 +1,11 @@
 import { Box, Drawer, Typography, Button, TextField } from '@mui/material';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/pt-br';
 
 import axios from 'axios';
-import { useState } from 'react';
-import { Laudo } from './laudo';
+import { useEffect, useState } from 'react';
 type AgendarConsultaProps = {
   paciente: {
     id: number;
@@ -17,9 +20,23 @@ type AgendarConsultaProps = {
 export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const [dataConsulta, setDataConsulta] = useState('');
+  const [dataConsulta, setDataConsulta] = useState<Dayjs | null>(dayjs());
   const [observacao, setObservacao] = useState(paciente.observacao || '');
-  const [horaConsulta, setHoraConsulta] = useState<Date | null>(null);
+  const [horaConsulta, setHoraConsulta] = useState<Dayjs | null>(null);
+  const [consultasAgendadas, setConsultasAgendadas] = useState<AgendarConsultaProps[]>([]); //bloquear de marcar consultas no mesmo horario
+
+  useEffect(() => {
+    async function showSchedules() {
+      try {
+        const currentSchedules = await axios.get(`${apiUrl}/agendamento`, { withCredentials: true });
+        setConsultasAgendadas(currentSchedules.data.agendamentos);
+        console.log(currentSchedules.data.agendamentos);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    showSchedules();
+  }, []);
 
   const marcarConsulta = async () => {
     if (!dataConsulta) {
@@ -31,12 +48,7 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
     try {
       console.log('Agendando consulta para:', paciente.nome);
       const isoDate = new Date(dataConsulta).toISOString();
-      let horaString = null;
-      if (horaConsulta) {
-        const h = horaConsulta.getHours().toString().padStart(2, '0');
-        const m = horaConsulta.getMinutes().toString().padStart(2, '0');
-        horaString = `${h}:${m}:00`;
-      }
+
       const response = await axios.post(
         `${apiUrl}/agendar`,
         {
@@ -44,7 +56,7 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
           medicoResponsavelId: paciente.medicoResponsavel?.id || null,
           dataConsulta: isoDate,
           observacao: observacao,
-          horaConsulta: horaString,
+          horaConsulta: horaConsulta,
         },
         { withCredentials: true }
       );
@@ -56,6 +68,7 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
       alert('Não foi possível agendar a consulta. Tente novamente.');
     }
   };
+
   return (
     <Drawer anchor="right" open={true} onClose={setAgendar}>
       <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', width: 600 }}>
@@ -66,16 +79,22 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
         <Typography variant="subtitle2">
           Médico Responsável: {paciente.medicoResponsavel?.name || 'Sem médico'}
         </Typography>
-        <TextField
-          variant="filled"
-          label="Data de Consulta"
-          name="dataConsulta"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          sx={{ m: 1 }}
-          value={dataConsulta}
-          onChange={e => setDataConsulta(e.target.value)}
-        />
+
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+          <DatePicker
+            disablePast={true}
+            label="Data de Consulta"
+            value={dataConsulta}
+            onChange={newValue => setDataConsulta(newValue)}
+            sx={{ m: 1 }}
+          />
+          <TimePicker
+            label="Hora da consulta"
+            value={horaConsulta}
+            onChange={newValue => setHoraConsulta(newValue)}
+            sx={{ m: 1 }}
+          />
+        </LocalizationProvider>
 
         <TextField
           label="Observações"

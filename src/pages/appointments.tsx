@@ -1,25 +1,21 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { Title } from '../components/title';
-import { Calendar } from '../modules/calendar';
-import { Add } from '../modules/add';
 import { useEffect, useState } from 'react';
-import { AgendaForm } from '../modules/forms/agenda-form';
 import axios from 'axios';
+import { GerarLaudo } from '../modules/forms/gerar-laudo';
 
 type Consulta = {
   id: number;
   dataConsulta: string;
-  paciente: {
-    nome: string;
-  };
-  medicoResponsavel?: {
-    name: string;
-  };
+  finalizado: boolean;
+  paciente: { nome: string };
+  medicoResponsavel?: { name: string };
 };
 
 export const Appointments = () => {
   const [showForm, setShowForm] = useState(false);
   const [agendamentos, setAgendamentos] = useState<Consulta[]>([]);
+  const [pacienteConsultando, setPacienteConsultando] = useState<Consulta | null>(null);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -31,77 +27,80 @@ export const Appointments = () => {
         console.error('Erro ao buscar agendamentos:', error);
       }
     }
-
     fetchAgendamentos();
   }, []);
 
-  function toogleForm() {
+  function toggleForm(agendado: Consulta | null = null) {
+    if (agendado) setPacienteConsultando(agendado);
     setShowForm(prev => !prev);
   }
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-      }}
-    >
-      <Title title="Agendamentos" />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-          justifyContent: 'center',
-          width: '100%',
-          padding: '1rem',
-          boxSizing: 'border-box',
-        }}
-      >
-        {agendamentos && agendamentos.length >= 0
-          ? agendamentos.map(agendado => (
-              <Paper
-                key={agendado.id}
-                elevation={3}
-                sx={{
-                  width: 300,
-                  height: 220,
-                  padding: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 2,
-                  backgroundColor: '#f4f4f4',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="subtitle1" fontWeight="bold" textAlign="center">
-                  paciente: {agendado.paciente.nome}
-                </Typography>
-                <Typography variant="subtitle1" fontWeight="bold" textAlign="center">
-                  {new Date(agendado.dataConsulta).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  medico: {agendado.medicoResponsavel?.name || 'Sem médico'}
-                </Typography>
-                <Button color="primary" variant="contained">
+  function renderAgendamentos(filtroFinalizado: boolean, titulo: string) {
+    const list = agendamentos.filter(a => a.finalizado === filtroFinalizado);
+
+    if (!list.length) return <Typography sx={{ m: 2 }}>Nenhum agendamento {titulo.toLowerCase()}</Typography>;
+
+    return (
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', padding: '1rem' }}>
+        {list.map(agendado => (
+          <Paper
+            key={agendado.id}
+            elevation={3}
+            sx={{
+              width: 300,
+              height: 220,
+              padding: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 2,
+              backgroundColor: agendado.finalizado ? '#999999ff' : '#f4f4f4',
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight="bold" textAlign="center">
+              paciente: {agendado.paciente.nome}
+            </Typography>
+            <Typography variant="subtitle1" fontWeight="bold" textAlign="center">
+              {new Date(agendado.dataConsulta).toLocaleDateString('pt-BR')}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              medico: {agendado.medicoResponsavel?.name || 'Sem médico'}
+            </Typography>
+            {agendado.finalizado ? (
+              <Typography variant="body1" color="white">
+                Finalizado
+              </Typography>
+            ) : (
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                <Button color="success" variant="contained">
+                  Ir para consulta
+                </Button>
+                <Button color="primary" variant="contained" onClick={() => toggleForm(agendado)}>
                   Laudo
                 </Button>
-              </Paper>
-            ))
-          : 'sem agendamentos'}
+              </Box>
+            )}
+          </Paper>
+        ))}
       </Box>
-      <Add onClick={toogleForm} />
-      {showForm ? <AgendaForm showForm={showForm} setShowForm={setShowForm} /> : ''}
+    );
+  }
+
+  return (
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Title title="Agendamentos" />
+      <Typography variant="h6" sx={{ ml: 2 }}>
+        Não finalizados
+      </Typography>
+      {renderAgendamentos(false, 'Não finalizado')}
+
+      <Typography variant="h6" sx={{ ml: 2, mt: 4 }}>
+        Finalizados
+      </Typography>
+      {renderAgendamentos(true, 'Finalizado')}
+
+      {showForm && <GerarLaudo toogleForm={toggleForm} showForm={showForm} pacienteConsultando={pacienteConsultando} />}
     </Box>
   );
 };

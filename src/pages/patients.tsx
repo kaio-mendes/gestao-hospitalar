@@ -6,7 +6,7 @@ import { AgendarConsulta } from '../modules/forms/agendar-consulta';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import axios from 'axios';
 import { isAdminContext } from '../context/is-admin-context';
-import { Laudo } from '../modules/forms/laudo';
+import { HistoricoConsultas } from '../modules/forms/historico-consultas.tsx';
 
 type Pacientes = {
   id: number;
@@ -48,7 +48,7 @@ export const Patients = () => {
   };
 
   return isAdmin === 'medico' ? (
-    <Laudo pacientes={pacientes} />
+    <HistoricoConsultas pacientes={pacientes} />
   ) : (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, padding: '2rem' }}>
       <Title title="Pacientes" />
@@ -59,8 +59,8 @@ export const Patients = () => {
               key={paciente.id}
               elevation={3}
               sx={{
-                width: 300,
-                height: 220,
+                width: 200,
+                height: 120,
                 padding: 2,
                 display: 'flex',
                 flexDirection: 'column',

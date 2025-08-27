@@ -12,7 +12,7 @@ type Professional = {
 
 type Paciente = {
   id: number;
-  name: string;
+  nome: string;
   idade: number;
 };
 
