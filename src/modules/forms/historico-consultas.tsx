@@ -1,17 +1,36 @@
 import { Box, Button, Modal, Paper, Typography } from '@mui/material';
 import { Title } from '../../components/title';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import type { Paciente } from '../../pages/patients/types.tsx';
 
-export const HistoricoConsultas = ({ pacientes }) => {
+type LaudoPaciente = {
+  id: number;
+  dataConsulta: string;
+  sintomas: string;
+  observacao?: string;
+  prescricao?: string;
+  paciente: {
+    id: number;
+    nome: string;
+  };
+};
+
+type TablePatientsProps = {
+  pacientes: Paciente[];
+};
+
+export const HistoricoConsultas: React.FC<TablePatientsProps> = ({ pacientes }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const [historico, setHistorico] = useState([]);
+  const [historico, setHistorico] = useState<LaudoPaciente[]>([]);
   const [showModal, setShowModal] = useState(false);
-  async function getHistorico(pacienteId) {
+  async function getHistorico(pacienteId: number) {
     setShowModal(true);
     try {
-      const response = await axios(`${apiUrl}/laudo/${pacienteId}`, { withCredentials: true });
+      const response = await axios.get<{ laudoPaciente: LaudoPaciente[] }>(`${apiUrl}/laudo/${pacienteId}`, {
+        withCredentials: true,
+      });
       setHistorico(response.data.laudoPaciente);
       console.log(response.data.laudoPaciente);
     } catch (error) {
@@ -22,7 +41,15 @@ export const HistoricoConsultas = ({ pacientes }) => {
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, padding: '2rem' }}>
       <Title title="Pacientes" />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 10,
+        }}
+      >
         {pacientes && pacientes.length > 0 ? (
           pacientes.map(paciente => (
             <Paper
@@ -62,6 +89,8 @@ export const HistoricoConsultas = ({ pacientes }) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,

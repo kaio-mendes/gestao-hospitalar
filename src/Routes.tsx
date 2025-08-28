@@ -4,10 +4,10 @@ import { Login } from './pages/auth/login';
 import { HomePage } from './pages/home';
 import { NotFound } from './pages/404';
 import { Config } from './pages/config';
-import { Patients } from './pages/patients';
 import { Beds } from './pages/beds';
-import { Professionals } from './pages/professionals';
 import { Appointments } from './pages/appointments';
+import { Professionals } from './pages/professionals/professionals';
+import { Patients } from './pages/patients/patients';
 
 export function AppRoutes() {
   return (

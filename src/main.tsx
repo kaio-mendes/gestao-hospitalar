@@ -9,6 +9,7 @@ import { ThemeApplier } from './theme-applier.tsx';
 import { IsAdminProvider } from './context/is-admin-context.tsx';
 import { Navbar } from './components/navbar.tsx';
 import { AppRoutes } from './Routes.tsx';
+import ListStyleProvider from './context/list-style.tsx';
 
 const RootLayout = () => {
   const location = useLocation();
@@ -28,13 +29,15 @@ const RootLayout = () => {
 };
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ChangeThemeProvider>
-      <ThemeApplier />
-      <BrowserRouter>
-        <IsAdminProvider>
-          <RootLayout />
-        </IsAdminProvider>
-      </BrowserRouter>
-    </ChangeThemeProvider>
+    <ListStyleProvider>
+      <ChangeThemeProvider>
+        <ThemeApplier />
+        <BrowserRouter>
+          <IsAdminProvider>
+            <RootLayout />
+          </IsAdminProvider>
+        </BrowserRouter>
+      </ChangeThemeProvider>
+    </ListStyleProvider>
   </StrictMode>
 );

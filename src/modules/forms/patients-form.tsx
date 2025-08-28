@@ -125,7 +125,6 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
   };
 
   const handleMedicoSelectChange = (e: SelectChangeEvent<string>) => {
-    console.log(professionals.id);
     const { value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -141,7 +140,6 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
 
       const response = await axios.post(`${apiUrl}/pacientes`, dataToSend, { withCredentials: true });
 
-      console.log('Paciente criado:', response.data);
       setShowForm(false);
       setFormData({
         nome: '',
@@ -161,7 +159,6 @@ export const PatientsForm: React.FC<PatientsProps> = ({ setShowForm, showForm })
         endereco_emergencia: '',
         medicoResponsavelId: null,
       });
-      console.log('tudo certo');
     } catch (error) {
       console.error('Erro ao criar paciente:', error);
       alert('Erro ao salvar paciente. Tente novamente.');

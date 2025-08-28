@@ -3,18 +3,13 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
-
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import type { Paciente } from '../../pages/patients/types';
+
 type AgendarConsultaProps = {
-  paciente: {
-    id: number;
-    nome: string;
-    observacao: string;
-    pacienteId: number;
-    medicoResponsavel?: { id: number; name: string };
-  };
-  setAgendar: () => void;
+  paciente: Paciente;
+  setAgendar: (paciente: Paciente) => void;
 };
 
 export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) => {
@@ -30,7 +25,6 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
       try {
         const currentSchedules = await axios.get(`${apiUrl}/agendamento`, { withCredentials: true });
         setConsultasAgendadas(currentSchedules.data.agendamentos);
-        console.log(currentSchedules.data.agendamentos);
       } catch (err) {
         console.log(err);
       }
@@ -46,7 +40,6 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
     }
 
     try {
-      console.log('Agendando consulta para:', paciente.nome);
       const isoDate = new Date(dataConsulta).toISOString();
 
       const response = await axios.post(
@@ -61,7 +54,6 @@ export const AgendarConsulta = ({ paciente, setAgendar }: AgendarConsultaProps) 
         { withCredentials: true }
       );
 
-      console.log('Consulta agendada:', response.data);
       setAgendar();
     } catch (error) {
       console.error('Erro ao agendar consulta:', error);

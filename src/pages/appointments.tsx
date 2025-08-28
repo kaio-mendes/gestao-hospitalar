@@ -35,10 +35,10 @@ export const Appointments = () => {
     setShowForm(prev => !prev);
   }
 
-  function renderAgendamentos(filtroFinalizado: boolean, titulo: string) {
+  function renderAgendamentos(filtroFinalizado: boolean, title: string) {
     const list = agendamentos.filter(a => a.finalizado === filtroFinalizado);
 
-    if (!list.length) return <Typography sx={{ m: 2 }}>Nenhum agendamento {titulo.toLowerCase()}</Typography>;
+    if (!list.length) return <Typography sx={{ m: 2, textAlign: 'center' }}>Nenhum agendamento encontrado</Typography>;
 
     return (
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', padding: '1rem' }}>
@@ -90,13 +90,11 @@ export const Appointments = () => {
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
       <Title title="Agendamentos" />
-      <Typography variant="h6" sx={{ ml: 2 }}>
-        Não finalizados
-      </Typography>
+
       {renderAgendamentos(false, 'Não finalizado')}
 
       <Typography variant="h6" sx={{ ml: 2, mt: 4 }}>
-        Finalizados
+        Atendidos
       </Typography>
       {renderAgendamentos(true, 'Finalizado')}
 
