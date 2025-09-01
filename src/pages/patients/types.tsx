@@ -9,6 +9,7 @@ export type Paciente = {
   id: number;
   nome: string;
   medicoresponsavelId: number;
+  deletePaciente: (id: number) => void;
   observacao?: string;
   medicoResponsavel?: {
     id?: number;

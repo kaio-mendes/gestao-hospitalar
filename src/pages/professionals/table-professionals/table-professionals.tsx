@@ -8,7 +8,7 @@ type TableProfessionalsProps = {
 };
 
 export const TableProfessionals = ({ profissionais, showPacientes }: TableProfessionalsProps) => {
-  return (
+  return profissionais.length > 0 ? (
     <Box
       sx={{
         display: 'flex',
@@ -37,5 +37,7 @@ export const TableProfessionals = ({ profissionais, showPacientes }: TableProfes
         </Table>
       </TableContainer>
     </Box>
+  ) : (
+    <h3 style={{ width: '100%', textAlign: 'center' }}>Sem pacientes cadastrados</h3>
   );
 };

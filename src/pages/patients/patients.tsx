@@ -33,6 +33,15 @@ export const Patients: React.FC = () => {
   const abrirAgendamento = (paciente: Paciente) => setPacienteSelecionado(paciente);
   const fecharAgendamento = () => setPacienteSelecionado(null);
 
+  const deletePaciente = (id: number) => {
+    try {
+      const response = axios.delete(`${apiUrl}/delete-paciente/${id}`, { withCredentials: true });
+      location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return isAdmin === 'medico' ? (
     <HistoricoConsultas pacientes={pacientes} />
   ) : (
@@ -41,7 +50,7 @@ export const Patients: React.FC = () => {
       {isList ? (
         <GridPatients pacientes={pacientes} abrirAgendamento={abrirAgendamento} />
       ) : (
-        <TablePatients pacientes={pacientes} abrirAgendamento={abrirAgendamento} />
+        <TablePatients pacientes={pacientes} abrirAgendamento={abrirAgendamento} deletePaciente={deletePaciente} />
       )}
       {pacienteSelecionado && <AgendarConsulta paciente={pacienteSelecionado} setAgendar={fecharAgendamento} />}
       {isAdmin !== 'medico' && (

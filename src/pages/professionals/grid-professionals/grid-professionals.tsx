@@ -7,7 +7,7 @@ type GridProfessionalsProps = {
 };
 
 export const GridProfessionals = ({ profissionais, showPacientes }: GridProfessionalsProps) => {
-  return (
+  return profissionais.length > 0 ? (
     <Box
       sx={{
         display: 'flex',
@@ -48,5 +48,7 @@ export const GridProfessionals = ({ profissionais, showPacientes }: GridProfessi
         </Paper>
       ))}
     </Box>
+  ) : (
+    <h3 style={{ width: '100%', textAlign: 'center' }}>Sem pacientes cadastrados</h3>
   );
 };
