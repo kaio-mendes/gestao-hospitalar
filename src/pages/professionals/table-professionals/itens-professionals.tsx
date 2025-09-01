@@ -1,4 +1,4 @@
-import { Box, Button, TableCell, TableRow } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import type { Professional, Paciente } from '../types';
 
 type ItensProfessionalsProps = {
