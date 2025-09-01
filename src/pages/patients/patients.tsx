@@ -35,7 +35,7 @@ export const Patients: React.FC = () => {
 
   const deletePaciente = (id: number) => {
     try {
-      const response = axios.delete(`${apiUrl}/delete-paciente/${id}`, { withCredentials: true });
+      axios.delete(`${apiUrl}/delete-paciente/${id}`, { withCredentials: true });
       location.reload();
     } catch (error) {
       console.log(error);

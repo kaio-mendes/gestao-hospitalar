@@ -1,6 +1,5 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import type { Paciente } from '../types';
-import type React from 'react';
 
 type GridPatientsProps = {
   pacientes: Paciente[];

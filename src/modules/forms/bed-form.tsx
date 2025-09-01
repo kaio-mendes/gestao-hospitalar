@@ -5,8 +5,8 @@ import type { SetStateAction } from 'react';
 type FormProps = {
   showForm: boolean;
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
-  pacientes: { nome: string }[]; // Definindo um tipo para o paciente
-  setor: { id: number; name: string }[]; // Definindo o tipo para o setor
+  pacientes: { nome: string }[];
+  setor: { id: number; name: string }[];
 };
 
 export const BedForm: React.FC<FormProps> = ({ showForm, setShowForm, pacientes, setor }) => {
