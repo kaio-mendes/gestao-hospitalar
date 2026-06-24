@@ -1,4 +1,4 @@
-# 🏥 Sistema de Gestão Hospitalar
+#  Sistema de Gestão Hospitalar
 
 ## Trabalho de Conclusão de Curso (TCC)
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 Sobre o Projeto
+##  Sobre o Projeto
 
 O Sistema de Gestão Hospitalar é uma aplicação web desenvolvida como Trabalho de Conclusão de Curso (TCC) do curso de Análise e Desenvolvimento de Sistemas. O projeto tem como objetivo informatizar e otimizar processos administrativos e operacionais de instituições de saúde, proporcionando maior eficiência no gerenciamento de pacientes, consultas, profissionais e recursos hospitalares.
 
@@ -14,7 +14,7 @@ A solução foi desenvolvida utilizando tecnologias modernas de desenvolvimento 
 
 ---
 
-## 🎯 Objetivos
+##  Objetivos
 
 ### Objetivo Geral
 
@@ -32,7 +32,7 @@ Desenvolver um sistema web para auxiliar na gestão hospitalar, centralizando in
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Front-end
 
@@ -50,7 +50,7 @@ Desenvolver um sistema web para auxiliar na gestão hospitalar, centralizando in
 * GitHub
 * VS Code
 
-### Possível Integração Back-end
+### Integração Back-end
 
 * Node.js
 * Express.js
